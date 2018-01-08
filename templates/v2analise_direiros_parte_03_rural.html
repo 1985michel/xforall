@@ -1,0 +1,52 @@
+{%extends "layout.html"%} {%block content%}
+<br><br><br>
+
+
+<div class="row">
+  <div class="col">
+
+
+  </div>
+  <div class="col text-center">
+    
+    <form action="{{ url_for('analise_direiros_parte_04')}}" method="POST" id="direitos-form" class="text-center">
+      <br>
+      <fieldset class="form-group">
+        <label for="jacontribuiu">Você é ou já foi <strong> TRABALHADOR RURAL </strong>?</label>
+        <div class="row">
+            <div class="col-5"></div>
+            <div class="custom-control custom-radio col-2">
+              <input type="radio" name="isRural" id="simSouRural" value="simSouRural" class="custom-control-input" checked="">
+              <label class="custom-control-label" for="simSouRural">SIM</label>
+            </div>
+            <div class="col-5"></div>
+          </div>
+          <div class="row">
+            <div class="col-5"></div>
+            <div class="custom-control custom-radio col-2">
+              <input type="radio" name="isRural" id="naoSouRural" value="naoSouRural" class="custom-control-input">
+              <label class="custom-control-label" for="naoSouRural">NÃO</label>
+            </div>
+            <div class="col-5"></div>
+          </div>
+
+
+        
+
+      </fieldset>
+
+      <div class="form-group bottom-align">
+        <button type="submit" class=" btn btn-primary btn-block" id="btAdicionar">Próximo </button>
+      </div>
+      </fieldset>
+    </form>
+    <div class="alert alert-dismissible alert-warning">
+      <h4>Atenção!</h4>
+      <p class="text-center">Para ter seus direitos reconhecidos como <strong>TRABALHADOR RURAL</strong> você precisa ter <strong>DOCUMENTOS</strong> que comprovem a atividade!
+      <br><br> <a href="#" class="alert-link">Veja aqui a lista de documentos necessáiros.</a>.</p>
+    </div>
+  </div>
+  <div class="col"></div>
+</div>
+
+{%endblock%}

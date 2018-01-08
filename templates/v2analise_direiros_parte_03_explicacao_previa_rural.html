@@ -1,0 +1,35 @@
+{%extends "layout.html"%} {%block content%}
+<br><br><br>
+
+
+<div class="row">
+  <div class="col"></div>
+  <div class="col text-center">
+    <h2>Analisando seus direitos...</h2>
+    <!--se ja contribuiu *************************************************************************-->
+    
+    <form action="{{ url_for('contagem')}}" method="POST" id="direitos-form" class="text-center">
+      <br>
+      <fieldset class="form-group">
+        <label for="jacontribuiu">Muito bem. Vamos verificar seus períodos de Atividades Rural fazendo uma <strong> CONTAGEM DE TEMPO</strong>.</label>
+        <br>
+      </fieldset>
+      <div class="form-group bottom-align">
+        <button type="submit" class=" btn btn-primary btn-block" id="btAdicionar">CLick Aqui para Iniciar sua<br><strong>Contagem de Tempo de Atividadade Rural</strong> </button>
+      </div>
+      </fieldset>
+    </form>
+    <div class="alert alert-dismissible alert-warning">
+        <h4>Atenção!</h4>
+        <p class="text-center">Para ter seus direitos reconhecidos como <strong>TRABALHADOR RURAL</strong> você precisa ter <strong>DOCUMENTOS</strong> que comprovem a atividade!
+        <br><br> <a href="#" class="alert-link">Veja aqui a lista de documentos necessáiros.</a>.</p>
+      </div>
+
+
+   
+
+  </div>
+  <div class="col"></div>
+</div>
+
+{%endblock%}

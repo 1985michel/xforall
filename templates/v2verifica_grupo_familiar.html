@@ -1,0 +1,163 @@
+{%extends "layout.html"%} {%block content%}
+<br>
+<br>
+<br>
+
+
+<div class="row">
+  <div class="col-4"> </div>
+  <div class="col-4 text-center">
+    <h2>Analisando seus direitos...</h2>
+    <form action="{{ url_for('analise_direiros_loas_verifica_grupo_familiar')}}" method="POST" id="direitos-form" class="text-center">
+      <br>
+      <fieldset class="form-group">
+        <br>
+
+        <p>Certo. Agora vamos conhecer o seu
+          <strong> GRUPO FAMILIAR: </strong>
+        </p>
+        <br>
+        <table class="table table-striped table-hover table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th colspan="2">Marque as pessoas que moram com você:</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-light">
+              <td colspan="2">
+                <div class="row">
+                  <div class="col-4"></div>
+                  <div class="custom-control custom-checkbox col-4">
+                    <input type="checkbox" class="custom-control-input" name="mae" id="mae">
+                    <label class="custom-control-label" for="mae"> mãe ou madrasta</label>
+                  </div>
+                  <div class="col-4"></div>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="2">
+                  <div class="row">
+                      <div class="col-4"></div>
+                      <div class="custom-control custom-checkbox col-4">
+                        <input type="checkbox" class="custom-control-input" name="pai" id="pai">
+                        <label class="custom-control-label" for="pai"> pai ou padrasto</label>
+                      </div>
+                      <div class="col-4"></div>
+                  </div>              
+              </td>
+            </tr>
+
+            <tr class="table-light">
+              <td colspan="2">
+                  <div class="row">
+                      <div class="col-4"></div>
+                      <div class="custom-control custom-checkbox col-4">
+                        <input type="checkbox" class="custom-control-input" name="irmaos" id="irmaos">
+                        <label class="custom-control-label" for="irmaos"> Irmãos e irmãs</label>
+                      </div>
+                      <div class="col-4"></div>
+                  </div>                
+                Quantidade de irmãos <strong>(solteiros)</strong>:
+                <input style="max-width:50px;" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                  id="qtdirmaos" name="qtdirmaos" value="" disabled>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                  <div class="row">
+                      <div class="col-3"></div>
+                      <div class="custom-control custom-checkbox col-6">
+                        <input type="checkbox" class="custom-control-input" name="filhos" id="filhos">
+                        <label class="custom-control-label" for="filhos"> Filhos, filhas e entiados(as)</label>
+                      </div>
+                      <div class="col-3"></div>
+                  </div>
+                Quantidade de filhos <strong>(solteiros)</strong>:
+                <input style="max-width:50px;" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                  id="qtdfilhos" name="qtdfilhos" value="" disabled>
+              </td>
+            </tr>
+            <!--
+            <tr class="table-active">
+              <td colspan="2"><input class="big-checkbox align-middle" type="checkbox" name="conjuge"> companheira, companheiro, esposa ou marido<br>
+              </td>
+            </tr>
+            -->
+            <tr class="table-light">
+              <td>
+                <div class="custom-control custom-radio">
+                  <input type="radio" name="solteirooucasado" id="sousolteiro" value="solteiro" class="custom-control-input" checked="">
+                  <label class="custom-control-label" for="sousolteiro">Sou solteiro e <strong>não</strong> tenho companheiro(a)</label>
+                  </label>
+                </div>
+
+
+              </td>
+
+              <td>
+                <div class="custom-control custom-radio">
+                  <input type="radio" name="solteirooucasado" id="soucasado" value="soucasado" class="custom-control-input">
+                  <label class="custom-control-label" for="soucasado">Sou casado ou tenho um companheiro(a)</label>
+                </div>
+
+
+              </td>
+            </tr>
+
+      </fieldset>
+      </tr>
+      </td>
+      <tr>
+        <td colspan="2">
+          <div class="form-group bottom-align">
+            <button type="submit" class=" btn btn-primary btn-block" id="btAdicionar">Próximo </button>
+      </tr>
+      </td>
+      </div>
+      </tbody>
+      </table>
+    </form>
+    <div class="alert alert-dismissible alert-info">
+      <h4>Atenção!</h4>
+      <p class="text-center">Para saber mais sobre os
+        <strong>BENEFÍCIOS ASSISTENCIAIS</strong>
+        <a href="#" class="alert-link">click aqui</a>.</p>
+    </div>
+    </div>
+    <div class="col-4"></div>
+  </div>
+
+  <script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+      $(document).on('change', 'input[Id="irmaos"]', function (e) {
+        if ($('#irmaos').is(":checked")) {
+          $("#qtdirmaos").prop("disabled", false);
+          $("#qtdirmaos").prop("required", true);
+
+        } else {
+          $("#qtdirmaos").prop("disabled", true);
+          $("#qtdirmaos").prop("required", false);
+        }
+
+      });
+
+      $(document).on('change', 'input[Id="filhos"]', function (e) {
+        if ($('#filhos').is(":checked")) {
+          $("#qtdfilhos").prop("disabled", false);
+          $("#qtdfilhos").prop("required", true);
+        } else {
+          $("#qtdfilhos").prop("disabled", true);
+          $("#qtdfilhos").prop("required", false);
+        }
+
+      });
+
+    });
+
+  </script> {%endblock%}

@@ -1,0 +1,91 @@
+{%extends "layout.html"%} {%block content%}
+
+
+<div class="container">
+	<br><br>
+	<h3 class="text-center">Contagem de Tempo de Contribuição</h3>
+	<br>
+	<form action="{{ url_for('continua_contagem')}}" method="POST" id="myform">
+		<fieldset>
+			<br>
+			<h4>Adicionar Período</h4>
+
+			<div class="row align-items-end">
+				<div class="col-sm-5">
+					<div class="form-group ">
+						<label for="exampleInputEmail">Empregador</label>
+						<input type="text" class="form-control" id="empregador" name="empregador" aria-describedby="empregador" placeholder="Autonomo, Nome da empresa, Orgão Público ou Empregador" required>
+
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="dataInicioVinculo">Data de Início:</label>
+						<input type="date" class="form-control" name="dataInicioVinculo" id="dataInicioVinculo" required onchange="validaDatas()">
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="dataTerminoVinculo">Data de Término:</label>
+						<input type="date" class="form-control" name="dataTerminoVinculo" id="dataTerminoVinculo" required onchange="validaDatas()">
+					</div>
+
+				</div>
+				<div class="col-sm-1 bottom-align">
+					<div class="form-group bottom-align">
+						<button type="submit" class=" btn btn-primary" id="btAdicionar">Adicionar</button>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+</div>
+
+<script type="text/javascript">
+	function validaDatas() {
+
+		if ($("#dataTerminoVinculo").val() != ''  && $("#dataInicioVinculo").val() != '') {
+
+			if ($("#dataTerminoVinculo").val() < $("#dataInicioVinculo").val()) {
+
+				$("#dataTerminoVinculo").addClass("is-invalid");
+				$('#dataTerminoVinculo').tooltip({
+					title: "Data de Término deve ser posterior à Data de Início!"
+				});
+				$("#dataInicioVinculo").addClass("is-invalid");
+				$('#dataInicioVinculo').tooltip({
+					title: "Data de Término deve ser posterior à Data de Início!"
+				});
+				$("#btAdicionar").prop("disabled", true);
+			} else {
+				$("#dataTerminoVinculo").removeClass("is-invalid");
+				$("#dataInicioVinculo").removeClass("is-invalid");
+				$("#btAdicionar").prop("disabled", false);
+			}
+		}
+	}
+
+	$(document).ready(function() {
+
+
+		$("#dataTerminoVinculo").blur(function() {
+			validaDatas();
+		});
+		$("#dataInicioVinculo").blur(function() {
+			if ($("#dataTerminoVinculo").val() !== '') {
+				validaDatas();
+			}
+		});
+
+
+	});
+</script>
+{%endblock%}
+
+
+<!--
+O que um vínculo tem?
+1 - empregador
+2 - data de entrada
+3 - data de saída
+-->

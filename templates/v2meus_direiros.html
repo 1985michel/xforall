@@ -1,0 +1,64 @@
+{%extends "layout.html"%} {%block content%}
+<br><br><br>
+
+
+<div class="row">
+  <div class="col-4">
+
+
+  </div>
+  <div class="col-4 text-center">
+    <h2>Analisando seus direitos...</h2>
+    <form action="{{ url_for('analise_direiros_parte_02')}}" method="POST" id="direitos-form" class="text-center">
+
+      <br>
+
+
+
+      <label for="dataInicioVinculo">Informe sua <small>DATA DE NASCIMENTO:</small>:</label>
+      <input type="date" class="form-control text-center" style="width:100%;" name="datadenascimento" id="datadenascimento" required>
+
+
+      <br>
+      <fieldset class="form-group">
+          
+        <label for="sexo">Informe seu <small>SEXO:</small>:</label>
+        <div class="row">
+        <div class="col-5"></div>
+        <div class="custom-control custom-radio col-2">
+            <input type="radio" name="sexo" id="masculino" value="masculino" class="custom-control-input" checked="">
+            <label class="custom-control-label" for="masculino">Marculino</label>
+          </div>
+          <div class="col-5"></div>
+        </div>
+        <div class="row">
+            <div class="col-5"></div>
+          <div class="custom-control custom-radio col-2">
+            <input type="radio" name="sexo" id="feminino" value="feminino" class="custom-control-input">
+            <label class="custom-control-label" for="feminino">Feminino</label>
+          </div>
+          <div class="col-5"></div>
+          </div>
+        
+
+        
+        
+
+      </fieldset>
+
+
+
+      <div class="form-group bottom-align">
+        <button type="submit" class=" btn btn-primary btn-block" id="btAdicionar">Próximo </button>
+      </div>
+
+
+      </fieldset>
+    </form>
+  </div>
+  <div class="col-4">
+
+  </div>
+</div>
+
+{%endblock%}

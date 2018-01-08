@@ -1,0 +1,63 @@
+{%extends "layout.html"%} {%block content%}
+
+<br>
+<br>
+<br>
+
+
+<div class="row">
+    <div class="col-4"> </div>
+    <div class="col-4 text-center">
+            {%if tem_algum_direito%}
+            <div href="#" class="list-group-item list-group-item-action active bg-success">
+                    Você pode ter direito aos seguintes Benefícios:
+            </div>
+            {% endif %}
+        <div class="list-group">
+            
+            {%for resultado in pessoa.direitos%}
+                {%if resultado.is_tem_direito%}                    
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <strong>{{resultado.nome_do_beneficio}}:</strong>                
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <br>
+
+        <div class="list-group">
+                {%if not tem_algum_direito%}
+                <div href="#" class="list-group-item list-group-item-action active bg-danger">
+                    Você parece <strong>não </strong>ter direito aos seguintes Benefícios:
+                </div>
+                {% endif %}
+                {%for resultado in pessoa.direitos%}
+                {%if not resultado.is_tem_direito%} 
+                <a href="#" class="list-group-item list-group-item-action">
+                                   
+                        <strong>{{resultado.nome_do_beneficio}}:</strong>
+                        <br>
+                        <ul>
+                            {%for razao in resultado.razoes_de_nao_ter_direito:%}
+                                <li class="text-justify">{{razao}}</li>
+                            {% endfor %}
+                        </ul>              
+                    
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+
+
+
+
+
+        
+
+
+    </div>
+    <div class="col-4"></div>
+
+</div>
+
+{%endblock%}

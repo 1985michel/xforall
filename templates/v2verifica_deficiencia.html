@@ -1,0 +1,43 @@
+{%extends "layout.html"%} {%block content%}
+<br><br><br>
+
+
+<div class="row">
+    <div class="col-4"> </div>
+    <div class="col-4 text-center">
+      <h2>Analisando seus direitos...</h2>
+      <form action="{{ url_for('analise_direiros_loas_verifica_deficiencia')}}" method="POST" id="direitos-form" class="text-center">
+        <br>
+        <fieldset class="form-group">
+          <br>
+
+          <label>Primeiramente, informe se você tem alguma <strong> deficiência ou incapaciade: </strong>?</label>
+          <div class="custom-control custom-radio">
+            <input type="radio" name="isDeficiente" id="simDeficiente" value="simDeficiente" class="custom-control-input" checked="">
+            <label class="custom-control-label" for="simDeficiente">SIM - Sou deficiente ou tenho alguma doença que me impede de trabalhar.</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input type="radio" name="isDeficiente" id="naoDeficiente" value="naoDeficiente" class="custom-control-input">
+            <label class="custom-control-label" for="naoDeficiente">NÃO - Não sou deficiente e não tenho nenhuma doença que me incapacite de trabalhar.</label>
+          </div>
+          
+        
+        </fieldset>
+        <div class="form-group bottom-align">
+          <button type="submit" class=" btn btn-primary btn-block" id="btAdicionar">Próximo </button>
+        </div>
+      </form>
+      <div class="alert alert-dismissible alert-info">
+        <h4>Atenção!</h4>
+        <p class="text-center">Para saber mais sobre os <strong>BENEFÍCIOS ASSISTENCIAIS</strong> <a href="#" class="alert-link">click aqui</a>.</p>
+      </div>
+    </div>
+    <div class="col-4"></div>
+
+
+
+
+
+  </div>
+
+  {%endblock%}

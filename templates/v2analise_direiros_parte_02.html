@@ -1,0 +1,58 @@
+{%extends "layout.html"%} {%block content%}
+<br>
+<br>
+<br>
+
+
+<div class="row">
+  <div class="col">
+
+
+  </div>
+  <div class="col text-center">
+    <h2>Analisando seus direitos...</h2>
+    <form action="{{ url_for('analise_direiros_parte_03')}}" method="POST" id="direitos-form" class="text-center">
+
+      <br>
+
+
+
+      <fieldset class="form-group">
+        <label for="jacontribuiu">Você já contribuiu com o
+          <strong>INSS:</strong>:</label>
+        <div class="row">
+          <div class="col-5"></div>
+          <div class="custom-control custom-radio col-2">
+            <input type="radio" name="jacontribuiu" id="simcontribui" value="simcontribui" class="custom-control-input" checked="">
+            <label class="custom-control-label" for="simcontribui">SIM</label>
+          </div>
+          <div class="col-5"></div>
+        </div>
+        <div class="row">
+            <div class="col-5"></div>
+            <div class="custom-control custom-radio col-2">
+              <input type="radio" name="jacontribuiu" id="naocontribui" value="naocontribui" class="custom-control-input">
+              <label class="custom-control-label" for="naocontribui">NÃO</label>
+            </div>
+            <div class="col-5"></div>
+          </div>
+        
+
+      </fieldset>
+
+
+
+      <div class="form-group bottom-align">
+        <button type="submit" class=" btn btn-primary btn-block" id="btAdicionar">Próximo </button>
+      </div>
+
+
+      </fieldset>
+    </form>
+  </div>
+  <div class="col">
+
+  </div>
+</div>
+
+{%endblock%}
