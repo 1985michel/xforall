@@ -1,6 +1,7 @@
 from contagem_de_tempo import FactoryDateTimeFromStrings
 from dateutil.relativedelta import relativedelta
 from money_mask import real_br_money_mask as real_mask
+import json
 
 class Pessoa:
     
@@ -15,6 +16,10 @@ class Pessoa:
         self._is_rural = False
         self._is_deficiente = False
         self._direitos = []
+        
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, 
+            sort_keys=True, indent=4)
         
     @property
     def nome(self):

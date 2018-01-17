@@ -3,6 +3,9 @@
 import datetime
 
 from dateutil.relativedelta import relativedelta
+from factory_date_time import FactoryDateTimeFromStrings
+
+import json
 
 
 class GerenteDeContagem:
@@ -16,6 +19,10 @@ class GerenteDeContagem:
         self._carencia_total = 0
         self._lista_de_vinculos = [] #lista de AssistenteDeContagem
         self._meses_a_descontar_da_carencia = 0
+        
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, 
+            sort_keys=True, indent=4)
         
     def reset_id(self):
         Vinculo._id = 0
@@ -137,9 +144,25 @@ class GerenteDeContagem:
         for v in self.get_vinculos():
             v.atualiza_duracao_e_carencia_considerados()
             self.__add_duracao_ao_total(v.get_duracao_considerada())
+        self.__trata_dias_e_meses_apos_somados()
             
     def __add_duracao_ao_total(self,duracao_do_vinculo):
         self._duracao_total.add_duracao(duracao_do_vinculo)
+        
+    def __trata_dias_e_meses_apos_somados(self):
+        anos = self._duracao_total.get_anos()
+        meses = self._duracao_total.get_meses()
+        dias = self._duracao_total.get_dias()
+        
+        while dias >=30:
+            dias-=30
+            meses+=1
+            
+        while meses >=12:
+            meses-=12
+            anos+=1
+            
+        self._duracao_total = Duracao(anos,meses,dias)
         
     def _set_meses_a_descontar_da_carencia(self):
         '''
@@ -194,6 +217,25 @@ class Vinculo:
         self._calcula_duracao_considerada()
         self._calcula_carencia()
         self._calcula_carencia_considerada()
+        self._is_facultativo = False
+        self._is_fez_registro_no_mte = False
+        
+    @property
+    def is_facultativo(self):
+        return self._is_facultativo
+        
+    @is_facultativo.setter 
+    def is_facultativo(self,new_value):
+        self._is_facultativo = new_value
+        
+    @property
+    def is_fez_registro_no_mte(self):
+        return self._is_fez_registro_no_mte
+        
+    @is_fez_registro_no_mte.setter 
+    def is_fez_registro_no_mte(self,new_value):
+        if not self._is_facultativo:#segurado facultativo não faz registro no MTE
+            self._is_fez_registro_no_mte = new_value
     
     def get_id(self):
         return self._id
@@ -212,10 +254,15 @@ class Vinculo:
         
     def get_data_inicio(self):
         return self._data_inicio
+        
+    def get_data_inicio_date_time(self):
+        return FactoryDateTimeFromStrings().get_date_time(self._data_inicio)
 
     def get_data_fim(self):
         return self._data_fim
         
+    def get_data_fim_date_time(self):
+        return FactoryDateTimeFromStrings().get_date_time(self._data_fim)
 
     def _formata_data_br(self,str_date):
         marcador = FactoryDateTimeFromStrings().get_marcador(str_date)
@@ -483,62 +530,44 @@ class Duracao:
         self._anos += new_duracao.get_anos()
         self._meses +=new_duracao.get_meses()
         self._dias += new_duracao.get_dias()
-    
-class FactoryDateTimeFromStrings:
+        
+        
+class QualidadeDeSegurado:
     '''
-    Classe que constroi objetos DateTime ao receber uma string
-    A classe está preparada para receber strings de data com 10 caracteres quer sejam dd/mm/aaaa ou aaaa/mm/dd ou dd-mm-aaaa ou aaaa-mm-dd
+    Classe responsável por verificar os perídos de qualidade de segurado da pessoa
     '''
-    def get_date_time(self,str_date):
-        marcador = self.get_marcador(str_date)
-        date_time_produzido = self._get_data_from_string(str_date,marcador)
-        return date_time_produzido
+    def __init__(self,lista_de_vinculos,lista_de_beneficios_recebidos,data_do_evento):
+        self._lista_de_vinculos = lista_de_vinculos
+        self._lista_de_beneficios_recebidos = lista_de_beneficios_recebidos
+        self._data_do_evento = data_do_evento
         
-    def get_marcador(self,str_date):
-        #metodo que seleciona o marcador do split
-        if '-' in str_date:
-            return '-'
-        if '/' in str_date:
-            return '/'
-            
-    def _get_data_from_string(self,str_date,marcador):
-        '''
-        Método que recebe uma string no formado dd-mm-aaaa ou aaaa-mm-dd
-        Retorna um obj DateTime
-        '''
-        pieces = str_date.split(marcador)
-        if(len(pieces[0])==2):
-            return self._constroi_data(pieces[2],pieces[1],pieces[0])
-        return self._constroi_data(pieces[0],pieces[1],pieces[2])
+    def get_data_fim_qualidade_de_segurado(self):
+        pass
+    
+    def _is_tem_qualidade_de_segurado_na_data_do_evento(self):
+        pass
+    
+    def __is_esta_contribuindo_na_data_do_evento(self):
+        pass
+    
+    def __get_data_da_ultima_contribuicao(self):
+        pass
+    
+    def __get_qtd_de_periodo_de_graca(self):
+        pass
+    
+    def __is_ultima_contribuicao_como_facultativo(self):
+        pass
+    
+    def __is_contribuiu_por_mais_de_dez_anos_sem_intervalo(self):#consultar se é sem intervalo ou sem perda da qualidade de segurado
+        pass
+    
+    def __is_recebeu_seguro_desemprego_ou_fez_inscricao_no_sine(self):
+        pass
+        
         
     
-    def _constroi_data(self,ano,mes,dia):
-        '''
-        Método que recebe um obj Tempo e retorna um obj DateTime
-        '''
-        data = datetime.datetime(int(ano),int(mes),int(dia),0,0,0,0)
-        return data
-
-    def get_data_atual(self):
-        #retorna um objeto DateTime com o momento presente
-        now = datetime.datetime.now()
-        return now
-        
-    def get_dia(self,str_date):
-        return self.get_date_time(str_date).day
-        
-    def get_mes(self,str_date):
-        return self.get_date_time(str_date).month
-        
-    def get_ano(self,str_date):
-        return self.get_date_time(str_date).year
-        
-    def _is_mesmo_mes(self,str_dateOut_v1,str_dateIn_v2):
-        if self.get_ano(str_dateOut_v1) == self.get_ano(str_dateIn_v2):
-            if self.get_mes(str_dateOut_v1) == self.get_mes(str_dateIn_v2):
-                return True
-        return False
-        
+    
 
         
     

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, render_template, request
+import os
+from flask import Flask, render_template, request, session
 from contagem_de_tempo import GerenteDeContagem,Vinculo,Duracao
 from pessoa import Pessoa
 from direito import AnaliseDeDireitos
@@ -26,11 +27,13 @@ def _reseta_todos_os_dados():
 def _reseta_gerente():
     global gerente    
     gerente = GerenteDeContagem()
+    session['gerente'] = gerente.toJSON()
 
 def _reseta_pessoa():
     print("Resetou PESSOA")
     global pessoa
     pessoa = Pessoa()
+    session['pessoa'] = pessoa.toJSON()
 
 
 @app.route('/continua_contagem', methods=['POST','GET'])
@@ -247,5 +250,7 @@ def atribuir_sexo_da_pessoa(result):
     
 
 if __name__=="__main__":
+    # set the secret key.  keep this really secret:
+    app.secret_key = os.urandom(24)
     app.run(debug=True)
 
