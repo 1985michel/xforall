@@ -8,8 +8,11 @@ from direito import AnaliseDeDireitos
 
 app = Flask(__name__)
 
+app.secret_key = os.urandom(24)
+
 gerente = None
 pessoa = None
+
 @app.route('/')
 def home():
     _reseta_todos_os_dados()
@@ -44,6 +47,7 @@ def continua_contagem():
 
         global gerente
         gerente.add_vinculo(vinculo)
+        session['gerente'] = gerente.toJSON()
         return render_template('v2continua_contagem.html',gerente=gerente)
 
 def _recebe_formulario_retorna_objeto_vinculo(result):
@@ -65,12 +69,14 @@ def atualizaVinculo():
     id_do_vinculo = result['idAtualizaVinculo']
     vinculo = _recebe_formulario_retorna_objeto_vinculo_para_edicao(result)    
     gerente.edit_vinculo(id_do_vinculo,vinculo)
+    session['gerente'] = gerente.toJSON()
     return render_template('v2continua_contagem.html',gerente=gerente)
 
 @app.route('/deleteVinculo/<int:id>', methods=['POST'])
 def deleteVinculo(id):
     global gerente
     gerente.remove_vinculo_by_id(id)
+    session['gerente'] = gerente.toJSON()
     return render_template('v2continua_contagem.html',gerente=gerente)
 
 @app.route('/resultado_da_contagem', methods=['POST','GET'])
@@ -248,7 +254,7 @@ def atribuir_sexo_da_pessoa(result):
     else:
         pessoa.sexo = 'F'
     
-app.secret_key = os.urandom(24)
+
 
 if __name__=="__main__":
     '''app.secret_key = os.urandom(24)'''
