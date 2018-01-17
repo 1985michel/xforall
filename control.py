@@ -248,10 +248,9 @@ def atribuir_sexo_da_pessoa(result):
     else:
         pessoa.sexo = 'F'
     
+app.secret_key = os.urandom(24)
 
 if __name__=="__main__":
-    # set the secret key.  keep this really secret:
-    app.secret_key = 'testando123testando'
-    "app.secret_key = os.urandom(24)
+    '''app.secret_key = os.urandom(24)'''
     app.run(debug=True)
 
