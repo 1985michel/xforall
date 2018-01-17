@@ -5,6 +5,8 @@ from flask import Flask, render_template, request, session
 from contagem_de_tempo import GerenteDeContagem,Vinculo,Duracao
 from pessoa import Pessoa
 from direito import AnaliseDeDireitos
+from json_to_python import JsonToPython
+import json
 
 app = Flask(__name__)
 
@@ -18,6 +20,15 @@ def home():
     _reseta_todos_os_dados()
     return render_template("v2home.html")
 
+def gerente_to_session():
+    global gerente  
+    session['gerente'] =  gerente.toJSON()
+
+
+def session_to_global_gerente():
+    global gerente
+    gerente = JsonToPython().json_to_gerente(session['gerente'])
+
 @app.route('/contagem', methods=['POST','GET'])
 def contagem():
     _reseta_gerente()
@@ -30,7 +41,7 @@ def _reseta_todos_os_dados():
 def _reseta_gerente():
     global gerente    
     gerente = GerenteDeContagem()
-    session['gerente'] = gerente.toJSON()
+    gerente_to_session()
 
 def _reseta_pessoa():
     print("Resetou PESSOA")
@@ -45,9 +56,10 @@ def continua_contagem():
         result=request.form
         vinculo = _recebe_formulario_retorna_objeto_vinculo(result)
 
+        session_to_global_gerente()
         global gerente
         gerente.add_vinculo(vinculo)
-        session['gerente'] = gerente.toJSON()
+        gerente_to_session()
         return render_template('v2continua_contagem.html',gerente=gerente)
 
 def _recebe_formulario_retorna_objeto_vinculo(result):
@@ -64,23 +76,26 @@ def _recebe_formulario_retorna_objeto_vinculo_para_edicao(result):
 
 @app.route('/atualizaVinculo', methods=['POST','GET'])
 def atualizaVinculo():
+    session_to_global_gerente()
     global gerente
     result=request.form
     id_do_vinculo = result['idAtualizaVinculo']
     vinculo = _recebe_formulario_retorna_objeto_vinculo_para_edicao(result)    
     gerente.edit_vinculo(id_do_vinculo,vinculo)
-    session['gerente'] = gerente.toJSON()
+    gerente_to_session()
     return render_template('v2continua_contagem.html',gerente=gerente)
 
 @app.route('/deleteVinculo/<int:id>', methods=['POST'])
 def deleteVinculo(id):
+    session_to_global_gerente()
     global gerente
     gerente.remove_vinculo_by_id(id)
-    session['gerente'] = gerente.toJSON()
+    gerente_to_session()
     return render_template('v2continua_contagem.html',gerente=gerente)
 
 @app.route('/resultado_da_contagem', methods=['POST','GET'])
 def calculaTempoTotal():
+    session_to_global_gerente()
     global gerente
     return render_template('v2resultadoContagemDeTempo.html',gerente=gerente)
 
@@ -90,7 +105,8 @@ def meus_direitos_resultado():
     Função que verifica se a pessoa é conhecida.
     Se sim exibe os resultados de direito aos benefícios
     Se não forem conhecidos ele direciona para receber os dados da pessoa
-    '''    
+    '''
+    session_to_global_gerente()
     global gerente
     if is_dados_pessoa_conhecidos():
         return exibe_resultados()
@@ -104,11 +120,13 @@ def is_dados_pessoa_conhecidos():
     return not pessoa.idade == None
 
 def is_tempo_de_contribuicao_contado():
+    session_to_global_gerente()
     global gerente
     return len(gerente.get_vinculos())>0
 
 def exibe_resultados():
     global pessoa
+    session_to_global_gerente()
     global gerente
     AnaliseDeDireitos(pessoa,gerente)
     tem_algum_direito = is_tem_algum_direito(pessoa)
