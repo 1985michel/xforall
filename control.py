@@ -27,13 +27,13 @@ def _reseta_todos_os_dados():
 def _reseta_gerente():
     global gerente    
     gerente = GerenteDeContagem()
-    session['gerente'] = gerente.toJSON()
+    #session['gerente'] = gerente.toJSON()
 
 def _reseta_pessoa():
     print("Resetou PESSOA")
     global pessoa
     pessoa = Pessoa()
-    session['pessoa'] = pessoa.toJSON()
+    #session['pessoa'] = pessoa.toJSON()
 
 
 @app.route('/continua_contagem', methods=['POST','GET'])
