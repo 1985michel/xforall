@@ -30,6 +30,17 @@ def session_to_global_gerente():
     global gerente
     gerente = JsonToPython().json_to_gerente(session['gerente'])
 
+def pessoa_to_session():
+    global pessoa  
+    session['pessoa'] =  pessoa.toJSON()
+
+def session_to_global_pessoa():
+    global pessoa
+    
+    decoded = json.loads(session['pessoa'])
+    if not decoded['_data_de_nascimento'] == None:
+        pessoa = JsonToPython().json_to_pessoa(session['pessoa'])
+
 @app.route('/contagem', methods=['POST','GET'])
 def contagem():
     _reseta_gerente()
@@ -48,7 +59,7 @@ def _reseta_pessoa():
     print("Resetou PESSOA")
     global pessoa
     pessoa = Pessoa()
-    session['pessoa'] = pessoa.toJSON()
+    pessoa_to_session()
 
 
 @app.route('/continua_contagem', methods=['POST','GET'])
@@ -108,7 +119,7 @@ def meus_direitos_resultado():
     Se não forem conhecidos ele direciona para receber os dados da pessoa
     '''
     session_to_global_gerente()
-    global gerente
+    session_to_global_pessoa()
     if is_dados_pessoa_conhecidos():
         return exibe_resultados()
     else:
@@ -118,7 +129,7 @@ def meus_direitos_resultado():
 
 def is_dados_pessoa_conhecidos():
     global pessoa
-    return not pessoa.idade == None
+    return not pessoa.data_de_nascimento == None
 
 def is_tempo_de_contribuicao_contado():
     session_to_global_gerente()
@@ -126,6 +137,7 @@ def is_tempo_de_contribuicao_contado():
     return len(gerente.get_vinculos())>0
 
 def exibe_resultados():
+    session_to_global_pessoa()
     global pessoa
     session_to_global_gerente()
     global gerente
@@ -157,7 +169,8 @@ def analise_direiros_parte_02():
     
     pessoa.data_de_nascimento = result['datadenascimento']
     atribuir_sexo_da_pessoa(result)
-
+    pessoa_to_session()
+    session_to_global_gerente()
     if is_tempo_de_contribuicao_contado():
         return meus_direitos_resultado()
 
@@ -168,11 +181,13 @@ def analise_direiros_parte_03():
     '''
     Tela em que o usuário informa se é trabalhador rural
     '''
+    session_to_global_pessoa()
     global pessoa
     
     result=request.form
 
     pessoa.is_ja_contribuiu = result['jacontribuiu'] == 'simcontribui'
+    pessoa_to_session()
     if pessoa.is_ja_contribuiu:
         return render_template("v2analise_direiros_parte_03_contribuinte.html")
     else:
@@ -183,10 +198,12 @@ def analise_direiros_parte_04():
     '''
     Tela em que o usuário é direcionado ou para a contagem de tempo rural ou para o início da análise de LOAS
     '''
+    session_to_global_pessoa()
     global pessoa
     
     result=request.form
-    pessoa.is_rural = result['isRural'] == 'simSouRural'        
+    pessoa.is_rural = result['isRural'] == 'simSouRural'
+    pessoa_to_session()       
 
     if pessoa.is_rural:
         return render_template("v2analise_direiros_parte_03_explicacao_previa_rural.html")
@@ -195,6 +212,7 @@ def analise_direiros_parte_04():
 
 @app.route('/analise_direiros_loas_parte_01', methods=['POST','GET'])
 def analise_direiros_loas_parte_01():
+    session_to_global_pessoa()
     global pessoa
     #se for idoso, nao precisa saber se é dificente
     #entao verifique a renda
@@ -206,26 +224,32 @@ def analise_direiros_loas_parte_01():
 
 @app.route('/analise_direiros_loas_verifica_deficiencia', methods=['POST','GET'])
 def analise_direiros_loas_verifica_deficiencia():
+    session_to_global_pessoa()
     global pessoa
     result=request.form
 
     pessoa.is_deficiente = result['isDeficiente'] == 'simDeficiente'
+    pessoa_to_session()
     if not pessoa.is_deficiente:
         return exibe_resultados()#se a pessoa não tem idade e não é dificente já podemos analisar os resultados
     return render_template("v2verifica_grupo_familiar.html")
 
 @app.route('/analise_direiros_loas_verifica_grupo_familiar', methods=['POST','GET'])
 def analise_direiros_loas_verifica_grupo_familiar():
+    session_to_global_pessoa()
     global pessoa
     result=request.form
     recebe_grupo_familiar(result,pessoa.grupo_familiar)
+    pessoa_to_session()
     return render_template("v2verifica_renda_do_grupo_familiar.html")
 
 @app.route('/analise_direiros_loas_verifica_renda', methods=['POST','GET'])
 def analise_direiros_loas_verifica_renda():
+    session_to_global_pessoa()
     global pessoa
     result=request.form
     recebe_renda_do_grupo_familiar(result,pessoa.grupo_familiar)
+    pessoa_to_session()
     return exibe_resultados()
 
 def recebe_renda_do_grupo_familiar(result,grupo_familiar):
@@ -235,6 +259,7 @@ def recebe_renda_do_grupo_familiar(result,grupo_familiar):
     else:
         renda = 0
     grupo_familiar.add_renda(float(renda))
+
 
 def trata_formatacao_renda_informada(renda):
     renda = renda.replace('.','')

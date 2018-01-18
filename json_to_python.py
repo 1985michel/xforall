@@ -39,6 +39,30 @@ class JsonToPython:
         for v in decoded['_lista_de_vinculos']:
             gerente.add_vinculo(self.json_to_vinculo(v))
         return gerente
+        
+    def json_to_grupo_familiar(self,grupo_familiar_json):
+        
+        grupo_familiar = GrupoFamiliar()
+        grupo_familiar.qtd_pessoas = grupo_familiar_json['_qtd_pessoas']
+        grupo_familiar.renda_total = grupo_familiar_json['_renda_total']
+        return grupo_familiar
+        
+    def json_to_pessoa(self,json_string):
+        pessoa = Pessoa()
+        
+        decoded = json.loads(json_string)
+        
+        pessoa.nome = decoded['_nome']
+        pessoa.data_de_nascimento = decoded['_data_de_nascimento']
+        pessoa.sexo = decoded['_sexo']
+        pessoa.grupo_familiar = self.json_to_grupo_familiar(decoded['_grupo_familiar'])
+        pessoa.is_ja_contribuiu = decoded['_is_ja_contribuiu']
+        pessoa.is_rural = decoded['_is_rural']
+        pessoa.is_deficiente = decoded['_is_deficiente']
+        
+        return pessoa
+        
+        
             
     
     
