@@ -10,7 +10,8 @@ import json
 
 app = Flask(__name__)
 
-app.secret_key = os.urandom(24)
+#app.secret_key = os.urandom(24)
+app.secret_key = 'LmijdkfjduhEHUdHDUEHDUSH'
 
 gerente = None
 pessoa = None
