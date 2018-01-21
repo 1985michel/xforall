@@ -1,0 +1,50 @@
+{%extends "layout.html"%} {%block content%}
+<br>
+<br>
+
+
+<div class="" style="height:50%;width:100%;">
+  <div class="row">
+    <div class="col-12 col-sm-1 col-md-3 col-lg-4 col-xl-4"></div>
+    <div class="col-12 col-sm-10 col-md-6 col-lg-4 col-xl-4 text-center">
+      <form action="{{ url_for('recebe_se_rural')}}" method="POST" id="direitos-form" class="text-center">
+        <br>
+        <fieldset class="form-group">
+          <label for="jacontribuiu">Você é ou já foi
+            <strong> TRABALHADOR RURAL </strong>?</label>
+          <div class="row">
+            <div class="col-5"></div>
+            <div class="custom-control custom-radio col-2">
+              <input type="radio" name="isRural" id="simSouRural" value="simSouRural" class="custom-control-input" checked="">
+              <label class="custom-control-label" for="simSouRural">SIM</label>
+            </div>
+            <div class="col-5"></div>
+          </div>
+          <div class="row">
+            <div class="col-5"></div>
+            <div class="custom-control custom-radio col-2">
+              <input type="radio" name="isRural" id="naoSouRural" value="naoSouRural" class="custom-control-input">
+              <label class="custom-control-label" for="naoSouRural">NÃO</label>
+            </div>
+            <div class="col-5"></div>
+          </div>
+        </fieldset>
+
+        <div class="form-group bottom-align">
+          <button type="submit" class=" btn btn-primary btn-block" id="btAdicionar">Próximo </button>
+        </div>
+        </fieldset>
+      </form>
+      <div class="alert text-center" style="background-color:#F39C12">
+        <h4 class="text-center">Atenção!</h4>
+        <p class="text-justify" style="">Para ter seus direitos reconhecidos como
+          <strong>TRABALHADOR RURAL</strong> você precisa ter
+          <strong>DOCUMENTOS</strong> que comprovem a atividade!</p>
+        <a href="#" class="alert-link text-justify" style="">Veja aqui a lista de documentos necessáiros.</a>
+      </div>
+    </div>
+    <div class="col-12 col-sm-1 col-md-3 col-lg-4 col-xl-4"></div>
+  </div>
+</div>
+
+{%endblock%}

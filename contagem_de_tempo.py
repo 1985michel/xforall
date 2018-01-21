@@ -19,6 +19,7 @@ class GerenteDeContagem:
         self._carencia_total = 0
         self._lista_de_vinculos = [] #lista de AssistenteDeContagem
         self._meses_a_descontar_da_carencia = 0
+ 
         
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
@@ -91,6 +92,32 @@ class GerenteDeContagem:
                 count+=1
                 a=count
                 
+                
+    #Alteração realizada em 19/01/2018
+    def desconta_carencia_de_vinculos_com_datas_de_inicio_considerada_no_mesmo_mes_do_fim_do_vinculo_anterior(self):
+        count = 0
+        a = 0
+        while count<(len(self._lista_de_vinculos)-1):#percorrendo a lista ordenada
+            
+            primeiro = self._lista_de_vinculos[a]
+            segundo = self._lista_de_vinculos[count+1]
+            if self.__is_primeiro_considerado_termina_no_mesmo_mes_que_comeca_segundo(primeiro,segundo):
+                segundo.desconta_da_carencia_considerada(1)
+                count+=1
+            else:
+                count+=1
+                a=count
+                
+    def __is_primeiro_considerado_termina_no_mesmo_mes_que_comeca_segundo(self,a,b):
+        a_fim = FactoryDateTimeFromStrings().get_date_time(a.get_data_fim_considerada())
+        b_inicio = FactoryDateTimeFromStrings().get_date_time(b.get_data_inicio_considerada())
+        if a_fim.year ==b_inicio.year:
+            return a_fim.month == b_inicio.month
+                
+        return False
+        
+    #fim da alteração realizada em 19/01/2018
+                
 
                 
     def __is_primeiro_termina_depois_do_comeco_do_segundo(self,a,b):
@@ -110,8 +137,7 @@ class GerenteDeContagem:
         self._carencia_total = 0
         for v in self.get_vinculos():
             self._carencia_total+=v.get_carencia_considerada()
-            
-        self._carencia_total -=self._meses_a_descontar_da_carencia
+        
     
     def get_contagem_total(self):
         #método que retorna o resultado da contagem de tempo
@@ -127,9 +153,12 @@ class GerenteDeContagem:
         self._ordenar_vinculos_cronologicamente()
         self._retirar_duplicidade()
         self._recalcular_duracao_e_carencia_considerados_em_cada_vinculo()
+        self.desconta_carencia_de_vinculos_com_datas_de_inicio_considerada_no_mesmo_mes_do_fim_do_vinculo_anterior()
         self._set_meses_a_descontar_da_carencia()
+        #self._calcular_carencia_total()
+        self._set_meses_a_descontar_da_carencia()
+        #self._check_if_is_vinculos_com_datas_consideradas_compartilhando_o_mesmo_mes()
         self._calcular_carencia_total()
-        self._set_meses_a_descontar_da_carencia()
         
     def _retornar_datas_consideradas_as_datas_reais(self):
          for v in self.get_vinculos():
@@ -220,6 +249,11 @@ class Vinculo:
         self._is_facultativo = False
         self._is_fez_registro_no_mte = False
         
+        
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, 
+            sort_keys=True, indent=4)
+        
     @property
     def is_facultativo(self):
         return self._is_facultativo
@@ -239,6 +273,7 @@ class Vinculo:
     
     def get_id(self):
         return self._id
+        
         
     def is_ignorado(self):
         return self._ignorado
@@ -353,6 +388,9 @@ class Vinculo:
     def _calcula_carencia_considerada(self):
         if not self.is_ignorado():
             self._carencia_considerada = CalculaCarencia().get_carencia_considerada_vinculo(self)
+            
+    def desconta_da_carencia_considerada(self,valor):
+        self._carencia_considerada -= valor
 
 
 
@@ -449,6 +487,11 @@ class CalculaCarencia:
         
         if duracao.get_dias() > 0: 
             carencia+=1
+            
+        #alteração realizada em 19/01/2018
+        #problemática está em descontar da carência quando dois vínculos não são concomitantes mas compartilham o mesmo mes
+        
+        #fim da alteração realizada em 19/01/2018
 
         return carencia
 

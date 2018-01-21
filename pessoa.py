@@ -92,7 +92,7 @@ class Pessoa:
     def add_direito_analisado(self,new_value):
         self._direitos.append(new_value)
 
-    def direitos_limpar_todos(self,new_value):
+    def direitos_limpar_todos(self):
         self._direitos = []
         
 
@@ -115,6 +115,11 @@ class GrupoFamiliar:
         self._qtd_pessoas = 1.00
         self._renda_total = 0.00
         self._renda_per_capita = 0.00
+        
+        
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, 
+            sort_keys=True, indent=4)
 
     def imprime(self):
         pass
@@ -126,7 +131,7 @@ class GrupoFamiliar:
         
     @qtd_pessoas.setter
     def qtd_pessoas(self,new_value):
-        self._qtd_pessoas = new_value
+        self._qtd_pessoas = int(new_value)
         self._calcula_renda_per_capita()
         
     def add_pessoa(self):

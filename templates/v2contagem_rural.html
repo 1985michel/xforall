@@ -5,7 +5,7 @@
 	<div class="row align-middle">
 		<div class="col-lg-2 col-xl-3"></div>
 		<div class="col-lg-8 col-xl-6">
-		<h3 class="text-center" style="margin-top:10%">Contagem de Tempo de Contribuição</h3>
+		<h3 class="text-center" style="margin-top:10%">Contagem de Tempo - Trabalhador Rural</h3>
 		<br>
 		<h4>Adicionar Período</h4>
 		<form action="{{ url_for('continua_contagem')}}" style="width:100%" class="form-inline" method="POST"
@@ -15,9 +15,9 @@
 
 
 					<div class="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top:2%">
-						<label for="empregador">Empregador</label>
+						<label for="empregador">Nome da propriedade:</label>
 						<input type="text" class="form-control" style="width: 100%;" id="empregador" name="empregador" aria-describedby="empregador"
-						 placeholder="Autonomo, Nome da empresa, Orgão Público ou Empregador" required>
+						 placeholder="Nome da propriedade e, ou, proprietário" required>
 					</div>
 
 					<div class="form-group col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" style="margin-top:2%">
@@ -37,13 +37,7 @@
 				</div>
 			</fieldset>
 
-		</form>
-
-		<form action="{{ url_for('nunca_contribuiu')}}" method="POST" id="contribuicao" style="margin-top:2%">
-			<fieldset>
-				<button type="submit" style="bottom:0;" class="btn btn-outline-danger btn-sm btn-block">Nunca contribui com o INSS</button>
-			</fieldset>
-		</form>
+		</form>		
 	</div>
 	<div class="col-lg-2 col-xl-3"></div>
 </div>

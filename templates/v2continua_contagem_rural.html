@@ -1,0 +1,274 @@
+{%extends "layout.html"%} {%block content%}
+<div class="container">
+    <br>
+    <br>
+
+    <h3 class="text-center">Contagem de Tempo - Trabalhador Rural</h3>
+    <br>
+    <br>
+
+    <h4>Períodos Cadastrados:</h4>
+    <div>
+        <table class="table table-striped table-hover table-bordered text-center">
+            <thead class="thead-dark">
+                <tr class="row">
+                    <th class="col-sm-3">Empregador</th>
+                    <th class="col-sm-2">Data Início</th>
+                    <th class="col-sm-2">Data Fim</th>
+                    <th class="col-sm-3">Duração</th>
+                    <th class="col-sm-2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for vinculo in gerente.get_vinculos()%}
+                <tr class="row">
+
+                    <td class="col-sm-3 align-middle" id="{{vinculo.get_id()}}">
+                        <strong>{{vinculo.get_empregador()}}</strong>
+                    </td>
+                    <td class="col-sm-2 align-middle" id="{{vinculo.get_id()}}">
+                        <strong>{{vinculo.get_data_inicio_formatada()}}</strong>
+                    </td>
+                    <td class="col-sm-2 align-middle" id="{{vinculo.get_id()}}">
+                        <strong>{{vinculo.get_data_fim_formatada()}}</strong>
+                    </td>
+                    <td class="col-sm-3 align-middle" id="{{vinculo.get_id()}}">
+                        <strong>{{vinculo.get_duracao().to_string()}}</strong>
+                    </td>
+                    <td class="col-sm-2 align-middle">
+                        <div class="btn-group" role="toolbar">
+
+                            <form action="#" method="POST">
+                                <button type="button" id="editarVinculo{{vinculo.get_id()}}" class="btn btn-outline-warning" data-toggle="modal" data-target="#myModal">Editar</button>
+                            </form>
+
+                            <form action="{{ url_for('deleteVinculo',id=vinculo.get_id())}}" method="POST">
+                                <button type="submit" class="btn btn-outline-danger">Excluir</button>
+                            </form>
+
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <br>
+
+
+
+        <script type="text/javascript">
+
+            $().ready(function () {
+                {%for vinculo in gerente.get_vinculos() %}
+                $('#editarVinculo{{vinculo.get_id()}}').click({ id: '{{vinculo.get_id()}}', empregador: '{{vinculo.get_empregador()}}', dataInicio: "{{vinculo.get_data_inicio()}}", dataFim: "{{vinculo.get_data_fim()}}" }, handleClick);
+                {% endfor %}
+            });
+            function handleClick(event) {
+                $("#idAtualizaVinculo").val(event.data.id)
+                $("#empregadorEdita").val(event.data.empregador)
+                $("#dataInicioVinculoEdita").val(event.data.dataInicio)
+                $("#dataTerminoVinculoEdita").val(event.data.dataFim)
+            }
+        </script>
+
+        <!--TOOLTIP MANAGER-->
+        <script type="text/javascript">
+
+            function validaDatas() {
+                if ($("#dataTerminoVinculo").val() < $("#dataInicioVinculo").val()) {
+
+                    $("#dataTerminoVinculo").addClass("is-invalid");
+                    $('#dataTerminoVinculo').tooltip({ title: "Data de Término deve ser posterior à Data de Início!" });
+                    $("#dataInicioVinculo").addClass("is-invalid");
+                    $('#dataInicioVinculo').tooltip({ title: "Data de Término deve ser posterior à Data de Início!" });
+                    $("#btAdicionar").prop("disabled", true);
+                } else {
+                    $("#dataTerminoVinculo").removeClass("is-invalid");
+                    $('#dataTerminoVinculo').tooltip('disable');
+                    $("#dataInicioVinculo").removeClass("is-invalid");
+                    $('#dataInicioVinculo').tooltip('disable');
+
+                    $("#btAdicionar").prop("disabled", false);
+                }
+            }
+
+            $(document).ready(function () {
+                $("#dataTerminoVinculo").blur(function () {
+                    validaDatas();
+                });
+                $("#dataInicioVinculo").blur(function () {
+                    if ($("#dataTerminoVinculo").val() !== '') {
+                        validaDatas();
+                    }
+                });
+
+
+            });
+
+
+        </script>
+    </div>
+    <div class="col-12 col-sm-1 col-md-3 col-lg-3 col-xl-1"></div>
+
+</div>
+
+
+
+<!--O MODAL PRECISA SER ALIMENTADO POR Js PARA PREENCHER OS CAMPOS DO FORMULÁRIO E DEFINIR O id PARA SALVAR -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Editando o Vínculo</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body">
+
+                <form action="{{ url_for('atualizaVinculo')}}" method="POST">
+
+                    <fieldset>
+                        <br>
+
+
+
+
+                        <div class="form-group ">
+                            <input type="hidden" class="form-control" id="idAtualizaVinculo" name="idAtualizaVinculo">
+                            <label for="exampleInputEmail">Empregador</label>
+                            <input type="text" class="form-control" id="empregadorEdita" name="empregadorEdita" aria-describedby="empregador" placeholder="Nome da empresa, Orgão Público ou Empregador"
+                                required>
+
+
+                        </div>
+                        <div class="row align-items-end">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="dataInicioVinculo">Data de Início:</label>
+                                    <input type="date" class="form-control" name="dataInicioVinculoEdita" id="dataInicioVinculoEdita" onchange="validaDatasModal()"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="dataTerminoVinculo">Data de Término:</label>
+                                    <input type="date" class="form-control" name="dataTerminoVinculoEdita" id="dataTerminoVinculoEdita" onchange="validaDatasModal()"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 text-center" id="dataInvalida" style="visibility: hidden">
+                                <label for="" style="color: red">
+                                    <small>
+                                        <strong>Data de Iníco</strong> deve ser ATERIOR á
+                                        <strong>Data de Término</strong>
+                                        <small>
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+
+            </div>
+            <div class="modal-footer form-group">
+                <button type="submit" class=" btn btn-primary" id="btnSalvarAlteracao">Salvar Alteração</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+<!--TOOLTIP MMMMMOOOODDDDAAAALLLL MANAGER-->
+<script type="text/javascript">
+
+    function validaDatasModal() {
+        if ($("#dataTerminoVinculoEdita").val() < $("#dataInicioVinculoEdita").val()) {
+
+            $("#dataTerminoVinculoEdita").addClass("is-invalid");
+            $('#dataTerminoVinculoEdita').tooltip({ title: "Data de Término deve ser posterior à Data de Início!" });
+            $("#dataInicioVinculoEdita").addClass("is-invalid");
+            $('#dataInicioVinculoEdita').tooltip({ title: "Data de Término deve ser posterior à Data de Início!" });
+            $("#btnSalvarAlteracao").prop("disabled", true);
+            $('#dataInvalida').css('visibility', 'visible')
+        } else {
+            $("#dataTerminoVinculoEdita").removeClass("is-invalid");
+            $('#dataTerminoVinculoEdita').tooltip('disable');
+            $("#dataInicioVinculoEdita").removeClass("is-invalid");
+            $('#dataInicioVinculoEdita').tooltip({ title: "" });
+            $('#dataInvalida').css('visibility', 'hidden')
+            $("#btnSalvarAlteracao").prop("disabled", false);
+        }
+    }
+
+    $(document).ready(function () {
+        $("#dataInicioVinculoEdita").blur(function () {
+            validaDatasModal();
+        });
+        $("#dataInicioVinculoEdita").blur(function () {
+            if ($("#dataInicioVinculoEdita").val() !== '') {
+                validaDatasModal();
+            }
+        });
+
+
+    });
+
+
+</script>
+
+
+</div>
+
+
+
+<div class="content">
+    <form action="{{ url_for('calculaTempoTotal')}}" method="POST">
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Finalizar e Ver Resultado</button>
+    </form>
+
+</div>
+<br>
+<br>
+</div>
+
+<div style="height: 122px;"></div>
+<!--FOOOOOTER DE ADIÇÃO DE VÍNCULO-->
+<div style=" position: fixed;height: 120px;bottom: 0;width: 100%; background-color:#2C3E50">
+    <div class="row">
+        <div class="col-lg-2 col-xl-1"></div>
+        <div class="col-lg-8 col-xl-10">
+            <span style="color:white;font-size: 2.2em;">Adicionar período:</span>
+            <form action="{{ url_for('continua_contagem')}}" style="width:100%" class="form-inline" method="POST" id="myform">
+                <fieldset>
+                    <div class="row">
+                        <div class="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4" style="">
+                            <label for="empregador" style="color:white;font-size: 1.5em;">Nome da propriedade:</label>
+                            <input type="text" class="form-control" style="width: 100%;" id="empregador" name="empregador" aria-describedby="empregador"
+                                placeholder="Nome da propriedade e, ou, proprietário" required>
+                        </div>
+
+                        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3" style="">
+                            <label for="dataInicioVinculo" style="color:white;font-size: 1.5em;">Data de Início:</label>
+                            <input type="date" class="form-control" style="width: 100%;" name="dataInicioVinculo" id="dataInicioVinculo" required onchange="validaDatas()">
+                        </div>
+
+                        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3" style="">
+                            <label for="dataTerminoVinculo" style="color:white;font-size: 1.5em;">Data de Término:</label>
+                            <input type="date" class="form-control" style="width: 100%;" name="dataTerminoVinculo" id="dataTerminoVinculo" required onchange="validaDatas()">
+                        </div>
+
+                        <div class="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-2" style="margin-top:2%">
+                            <button type="submit" class=" btn btn-primary btn-block" style="border:1px solid white;" id="btAdicionar">Adicionar</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-lg-2 col-xl-1"></div>
+    </div>
+</div>
+{%endblock%}
