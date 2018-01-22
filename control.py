@@ -71,8 +71,10 @@ def contagem():
 
     session_to_global_pessoa()
     global pessoa
-    if pessoa.is_rural:
-        return render_template("v2contagem_rural.html")
+    
+    if not pessoa == None:#prevenindo um erro de processamento comum no Heroku
+        if pessoa.is_rural:
+            return render_template("v2contagem_rural.html")
 
     return render_template("v2contagem.html")
 
