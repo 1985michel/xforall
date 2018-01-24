@@ -78,6 +78,10 @@ def contagem():
 
     return render_template("v2contagem.html")
 
+@app.route('/termo_de_responsabilidade', methods=['POST','GET'])
+def termo_de_responsabilidade():
+    return render_template("termo_de_responsabilidade.html")
+
 @app.route('/continua_contagem', methods=['POST','GET'])
 def continua_contagem():
     if request.method=='POST':

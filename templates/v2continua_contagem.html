@@ -50,8 +50,7 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		<br>
-		<br>
+		<br><br>
 
 
 
@@ -204,7 +203,7 @@
 					validaDatasModal();
 				}
 			});
-
+			$('#footer').css('visibility', 'hidden')
 
 		});
 
@@ -216,7 +215,7 @@
 
 
 
-<div class="content" style="bottom: 124px;width: 100%;">
+<div class="content" style="position: fixed;bottom: 112px;width: 100%;">
 	<form action="{{ url_for('calculaTempoTotal')}}" method="POST">
 		<button type="submit" class="btn btn-primary btn-lg btn-block">Finalizar e Ver Resultado</button>
 	</form>
@@ -225,11 +224,11 @@
 <div style="height: 122px;"></div>
 
 <!--FOOOOOTER DE ADIÇÃO DE VÍNCULO-->
-<div style=" position: fixed;height: 120px;bottom: 0;width: 100%; background-color:#2C3E50">
+<div style=" position: fixed;height: 110px;bottom: 0;width: 100%; background-color:#2C3E50;z-index:2;">
 	<div class="row">
 		<div class="col-lg-2 col-xl-1"></div>
-		<div class="col-lg-8 col-xl-10">
-			<span style="color:white;font-size: 2.2em;">Adicionar período:</span>
+		<div class="col-lg-8 col-xl-10  d-flex justify-content-center" style="padding-top:10px;">
+			<span  style="color:white;font-size: 2.2em;white-space: nowrap;padding-top:20px;padding-right:20px;">Adicionar período:</span>
 			<form action="{{ url_for('continua_contagem')}}" style="width:100%" class="form-inline" method="POST" id="myform">
 				<fieldset>
 					<div class="row">
