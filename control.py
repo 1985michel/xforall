@@ -95,9 +95,9 @@ def continua_contagem():
         
         gerente.add_vinculo(vinculo)
         gerente_to_session()
-
-        if pessoa.is_rural:
-            return render_template('v2continua_contagem_rural.html',gerente=gerente)
+        if not pessoa == None:#prevenindo um erro de processamento comum no Heroku
+            if pessoa.is_rural:
+                return render_template('v2continua_contagem_rural.html',gerente=gerente)
         return render_template('v2continua_contagem.html',gerente=gerente)
 
 def _recebe_formulario_retorna_objeto_vinculo(result):
