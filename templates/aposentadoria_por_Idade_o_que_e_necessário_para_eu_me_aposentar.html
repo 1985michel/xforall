@@ -1,0 +1,126 @@
+{%extends "layout.html"%} {%block content%}
+<div class="container" style="padding-top:5%;">
+
+    <div class="row">
+        <div class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-3"></div>
+        <div class="col-12 col-sm-8 col-md-8 col-lg-8 col-xl-6 ">
+            <h2 class="text-center" style="padding-bottom:4%;">Aposentadoria por Idade – o que é necessário para eu me aposentar?</h2>
+
+            <p class="text-justify">Este é um dos principais benefícios oferecidos pela Previdência Social no Brasil. Trata-se de um pagamento mensal
+                – com direito a recebimento de décimo terceiro salário – feito a(o) trabalhador(a) quando este cumpre os
+                requisitos exigidos que são: idade mínima e carência que é tempo mínimo de serviço ou contribuição.</p>
+
+            <p class="text-justify">Este benefício pode ser de dois tipos: Aposentadoria por Idade Urbana ou Aposentadoria por Idade Rural. A diferença
+                é que no caso dos trabalhadores rurais a idade mínima exigida é menor do que para os trabalhadores urbanos.</p>
+
+            <p class="text-justify">Veja na tabela abaixo as condições exigidas para ter direito ao benefício:</p>
+
+            <div class="text-center">
+                <table class="table_center" style="border: 2px solid black;padding:2px;">
+                    <tr class="table-info">
+                        <th></th>
+                        <th colspan="2" style="border-right: 1px solid black;">Homen</th>
+                        <th colspan="2">Mulher</th>
+                    </tr>
+                    <tr>
+                        <td class="table-info"> </td>
+                        <th>Idade</th>
+                        <th class="table-primary" style="border-right: 1px solid black;">Carência</th>
+                        <th>Idade</th>
+                        <th class="table-primary">Carência</th>
+                    </tr>
+                    <tr style="border: 1px solid black;">
+                        <th class="table-info">Trabalhador Urbano</th>
+                        <td>65 anos</td>
+                        <td class="table-primary" style="border-right: 1px solid black;">180 contribuições</td>
+                        <td>60 anos</td>
+                        <td class="table-primary">180 contribuições</td>
+                    </tr>
+                    <tr>
+                        <th class="table-info">Trabalahdor Rural</th>
+                        <td>60 anos</td>
+                        <td class="table-primary" style="border-right: 1px solid black;">180 meses</td>
+                        <td>55 anos</td>
+                        <td class="table-primary">180 meses</td>
+                    </tr>
+                </table>
+            </div>
+            <p class="blockquote-footer">Tabela Idade x Carência: Aposentadoria por Idade Urbana e Rural</p>
+
+            <h5 style="padding-top:50px;padding-botton:10px;">Exemplos:</h5>
+
+            <p class="text-justify">- O sr. José é um trabalhador rural. Para ele poder se aposentar por idade ele precisa comprovar 180 meses (
+                15 anos ) de trabalho e ter pelo menos 60 anos de vida;</p>
+
+            <p class="text-justify">- O sr. Geraldo trabalha em um comércio, então ele é um trabalhador urbano. Para ele poder se aposentar ele precisa
+                comprovar 180 contribuições e ter pelo menos 65 anos de vida.</p>
+
+            <p class="text-justify">- A sra. Rufina mora e trabalha em uma fazenda com sua família. Então, para que ela possa se aposentar por idade
+                como trabalhadora rural ela precisa comprovar 180 meses ( o que é igual a 15 anos ) de trabalho e ter pelo
+                menos 55 anos de vida;</p>
+
+            <p class="text-justify">- A sra. Maria trabalha como costureira. Para ela poder se aposentar por idade ela precisa comprovar 180 contribuições
+                e ter pelo menos 65 anos de vida.</p>
+
+            <p class="text-justify">Entendeu? Para saber a idade e o tempo mínimo de trabalho necessários para se aposentar é necessário verificar
+                o sexo da pessoa e se ela é trabalhadora rural ou urbana. Homens precisam ser cinco anos mais velhos do que
+                as mulheres e os trabalhadores urbanos precisam trabalhar cinco anos a mais do que as mulheres.</p>
+
+            <a href="{{ url_for('pergunta_se_ja_contribuiu')}}">Clique aqui para analisar se você tem direito a este benefício.</a>
+
+            <h4 style="padding-top:20px;padding-botton:10px;">Perguntas comuns::</h4>
+
+            <p class="text-justify" style="padding-top:15px;">
+                Pergunta 1 – Eu tenho 70 anos, sempre morei na cidade e trabalhei em diversas profissões sempre como autônomo ( sem carteira
+                assinada ) e nunca contribui com o INSS. Eu posso me aposentar?
+                <br>
+                <strong>Resposta: </strong>Não. Para poder se aposentar são necessárias as duas coisas: idade mínima e a carência
+                mínima ( tempo de contribuição). Mesmo que você já tenha a idade mínima necessária, se você não tiver o tempo
+                mínimo de contribuição exigido você não poderá se aposentar. No seu caso, talvez você tenha direito a um
+                <a href="#">Benefício Assistencial ao Idoso</a>.
+            </p>
+
+            <p class="text-justify" style="padding-top:15px;">
+                Pergunta 2 – Eu tenho 60 anos, sou homem e tenho ao todo 25 anos de carteira assinada em diversas fábricas e comércios. Posso
+                me aposentar por idade?
+                <br>
+                <strong>Resposta: </strong>Como vimos, para o homem, trabalhador urbano, se aposentar são necessários o mínimo de
+                15 anos de contribuição e 65 anos de vida. No seu caso você tem o tempo mínimo de contribuição mas ainda
+                não tem a idade necessária. Então você não cumpre, ainda, as condições necessárias para a aposentadoria.
+                No dia do seu aniversário de 65 anos você poderá agendar seu atendimento e se aposentar.</p>
+
+            <p class="text-justify">
+                <strong style="color:red;">Atenção:</strong> Mesmo que você já tenha o tempo mínimo necessário para a aposentadoria por idade nós sugerimos
+                que você continue contribuindo até se aposentar. As razões são duas.
+                <a href="#">Clique aqui e entenda essa questão.</a>
+            </p>
+
+            <p class="text-justify" style="padding-top:15px;">
+                Pergunta 3 – Meu nome é Marli tenho 60 anos de vida e paguei o carnê do INSS por 13 anos e meio. Já posso me aposentar por
+                idade?
+                <br>
+                <strong>Resposta: </strong>Marli, ainda não chegou o momento de você se aposentar. A Aposentadoria por Idade para
+                mulheres exige idade mínima de 60 anos e pelo menos 15 anos de contribuição (o que equivale a 180 meses).
+                Falta ainda então um ano e meio de contribuição para que seu tempo complete os 15 anos exigidos. Sugerimos
+                que você continue contribuindo até completar o tempo mínimo de 15 anos de contribuição e assim possa se aposentar
+                tranquila.</p>
+
+            <p class="text-justify" style="padding-top:15px;">Você ainda tem alguma dúvida?
+                <a href="#">Pergunte-nos!</a>
+            </p>
+
+            <p class="text-justify" style="padding-top:15px;">Você já tem direito a se aposentar?
+                <a href="#">Agende seu Atendimento para uma Agência do INSS</a>
+            </p>
+
+            <div style="padding-bottom:80px;"></div>
+
+        </div>
+        <div class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-3"></div>
+    </div>
+
+</div>
+
+
+
+{%endblock%}

@@ -78,9 +78,6 @@ def contagem():
 
     return render_template("v2contagem.html")
 
-@app.route('/termo_de_responsabilidade', methods=['POST','GET'])
-def termo_de_responsabilidade():
-    return render_template("termo_de_responsabilidade.html")
 
 @app.route('/continua_contagem', methods=['POST','GET'])
 def continua_contagem():
@@ -368,9 +365,23 @@ def recebe_grupo_familiar(result,grupo_familiar):
                 grupo_familiar.add_pessoa()
     if result['solteirooucasado'] == 'soucasado':
         grupo_familiar.add_pessoa()
+
+
+
+
+'''ARTIGOS'''
+
+@app.route('/termo_de_responsabilidade', methods=['POST','GET'])
+def termo_de_responsabilidade():
+    return render_template("termo_de_responsabilidade.html")
+
+@app.route('/aposentadoria_por_Idade_o_que_e_necessário_para_eu_me_aposentar', methods=['POST','GET'])
+def aposentadoria_por_Idade_o_que_e_necessário_para_eu_me_aposentar():
+    return render_template("aposentadoria_por_Idade_o_que_e_necessário_para_eu_me_aposentar.html")
     
 
 
 if __name__=="__main__":
     '''app.secret_key = os.urandom(24)'''
     app.run(debug=True)
+
