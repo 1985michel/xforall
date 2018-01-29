@@ -1,0 +1,85 @@
+{%extends "layout.html"%} {%block content%}
+
+
+<div class="container" style="height: 50%;position: relative;">
+  <div class="row align-middle">
+    <div class="col-lg-2 col-xl-3"></div>
+    <div class="col-lg-8 col-xl-6">
+    <h3 class="text-center" style="margin-top:10%">Faça sua Pergunta:</h3>
+    <br>
+    <form action="{{ url_for('recebe_pergunta')}}" style="width:100%" class="form-inline" method="POST"
+     id="myform">
+      <fieldset>
+        <div class="row">
+
+
+          <div class="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top:2%">
+            <label for="nome">Nome:<small>(opcional)</small></label>
+            <input type="text" class="form-control" style="width: 100%;" id="nome" name="nome" aria-describedby="nome"
+             placeholder="Informe seu nome ( opcional )">
+          </div>
+
+          <div class="form-group col-12 col-sm-12 col-md-6 col-lg-12 col-xl-12" style="margin-top:2%">
+            <label for="textareapergunta">Pergunta:</label>
+            <textarea class="form-control" id="pergunta" name="pergunta" rows="7" style="width: 100%;" required=""></textarea>
+          </div>
+
+       
+          <div class="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top:2%; padding-bottom: 50px;">
+            <button type="submit" class=" btn btn-primary btn-block" id="btnenviar">Enviar</button>
+          </div>
+
+        </div>
+      </fieldset>
+
+    </form>
+
+    
+  </div>
+  <div class="col-lg-2 col-xl-3"></div>
+</div>
+</div>
+
+
+
+
+<script type="text/javascript">
+  function validaDatas() {
+
+    if ($("#dataTerminoVinculo").val() != '' && $("#dataInicioVinculo").val() != '') {
+
+      if ($("#dataTerminoVinculo").val() < $("#dataInicioVinculo").val()) {
+
+        $("#dataTerminoVinculo").addClass("is-invalid");
+        $('#dataTerminoVinculo').tooltip({
+          title: "Data de Término deve ser posterior à Data de Início!"
+        });
+        $("#dataInicioVinculo").addClass("is-invalid");
+        $('#dataInicioVinculo').tooltip({
+          title: "Data de Término deve ser posterior à Data de Início!"
+        });
+        $("#btAdicionar").prop("disabled", true);
+      } else {
+        $("#dataTerminoVinculo").removeClass("is-invalid");
+        $("#dataInicioVinculo").removeClass("is-invalid");
+        $("#btAdicionar").prop("disabled", false);
+      }
+    }
+  }
+
+  $(document).ready(function () {
+
+    
+    $("#dataTerminoVinculo").blur(function () {
+      validaDatas();
+    });
+    $("#dataInicioVinculo").blur(function () {
+      if ($("#dataTerminoVinculo").val() !== '') {
+        validaDatas();
+      }
+    });
+
+
+  });
+</script> {%endblock%}
+

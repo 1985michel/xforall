@@ -6,6 +6,7 @@ from contagem_de_tempo import GerenteDeContagem,Vinculo,Duracao
 from pessoa import Pessoa
 from direito import AnaliseDeDireitos
 from json_to_python import JsonToPython
+from questao import Questao
 import json
 
 app = Flask(__name__)
@@ -367,6 +368,29 @@ def recebe_grupo_familiar(result,grupo_familiar):
         grupo_familiar.add_pessoa()
 
 
+@app.route('/enviar_pergunta', methods=['POST','GET'])
+def enviar_pergunta():
+    return render_template("enviar_pergunta.html")
+
+@app.route('/recebe_pergunta', methods=['POST','GET'])
+def recebe_pergunta():
+    if request.method=='POST':
+
+        result=request.form
+        questao = _recebe_formulario_retorna_objeto_questao(result)
+
+        print(questao.questao_as_string())
+       
+        if not questao==None:
+            return render_template('questao_cadastrada_com_sucesso.html')
+        return render_template('erro_ao_cadastrar_questao.html')
+
+def _recebe_formulario_retorna_objeto_questao(result):
+    nome = result['nome']
+    pergunta = result['pergunta']
+    questao = Questao(nome,pergunta)
+    return questao
+
 
 
 '''ARTIGOS'''
@@ -375,11 +399,13 @@ def recebe_grupo_familiar(result,grupo_familiar):
 def termo_de_responsabilidade():
     return render_template("termo_de_responsabilidade.html")
 
-@app.route('/aposentadoria_por_Idade_o_que_e_necessário_para_eu_me_aposentar', methods=['POST','GET'])
-def aposentadoria_por_Idade_o_que_e_necessário_para_eu_me_aposentar():
-    return render_template("aposentadoria_por_Idade_o_que_e_necessário_para_eu_me_aposentar.html")
+@app.route('/artigo_aposentadoria_por_Idade_apresentacao', methods=['POST','GET'])
+def artigo_aposentadoria_por_Idade_apresentacao():
+    return render_template("artigo_aposentadoria_por_Idade_apresentacao.html")
     
-
+@app.route('/artigo_loas_apresentacao', methods=['POST','GET'])
+def artigo_loas_apresentacao():
+    return render_template("artigo_loas_apresentacao.html")
 
 if __name__=="__main__":
     '''app.secret_key = os.urandom(24)'''

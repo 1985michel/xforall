@@ -1,0 +1,32 @@
+{%extends "layout.html"%} {%block content%}
+<br>
+<br>
+<br>
+
+
+<div class="row">
+  <div class="col">
+
+
+  </div>
+  <div class="col text-center">
+    <h2>Pergunta enviada com sucesso!</h2>
+    <br><br>
+    <div class="alert alert-dismissible alert-success">
+      <p>Sua pergunta foi registrada com sucesso e em breve será respondida.</p>
+    </div>
+    <form action="{{ url_for('home')}}" method="POST" id="direitos-form" class="text-center">
+      <div class="form-group bottom-align">
+        <button type="submit" class=" btn btn-primary btn-block" id="btAdicionar">Voltar para tela inicial </button>
+      </div>
+
+
+      </fieldset>
+    </form>
+  </div>
+  <div class="col">
+
+  </div>
+</div>
+
+{%endblock%}
