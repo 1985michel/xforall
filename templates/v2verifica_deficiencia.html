@@ -1,13 +1,11 @@
 {%extends "layout.html"%} {%block content%}
-<br><br><br>
-
-
+<br>
 <div class="row">
     <div class="col-4"> </div>
-    <div class="col-4 text-center">
+    <div class="col-4 text-center"  style="padding-bottom: 40px;">
       <h2>Analisando seus direitos...</h2>
       <form action="{{ url_for('analise_direiros_loas_verifica_deficiencia')}}" method="POST" id="direitos-form" class="text-center">
-        <br>
+        
         <fieldset class="form-group">
           <br>
 
@@ -27,9 +25,9 @@
           <button type="submit" class=" btn btn-primary btn-block" id="btAdicionar">Próximo </button>
         </div>
       </form>
-      <div class="alert alert-dismissible alert-info">
+      <div class="div_info">
         <h4>Atenção!</h4>
-        <p class="text-center">Para saber mais sobre os <strong>BENEFÍCIOS ASSISTENCIAIS</strong> <a href="#" class="alert-link">click aqui</a>.</p>
+        <p class="text-center">Para saber mais sobre os <strong>BENEFÍCIOS ASSISTENCIAIS</strong> <a href="#" class="" style="color:white;">click aqui</a>.</p>
       </div>
     </div>
     <div class="col-4"></div>

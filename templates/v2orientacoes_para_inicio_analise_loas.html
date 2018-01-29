@@ -1,13 +1,12 @@
 {%extends "layout.html"%} {%block content%}
-<br><br><br>
-
+<br>
 
 <div class="row">
   <div class="col-12 col-sm-1 col-md-2 col-lg-3 col-xl-3"> </div>
-  <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-6 text-center">
+  <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-6 text-center"  style="padding-bottom: 60px;">
     <h2>Analisando seus direitos...</h2>
     <form action="{{ url_for('data_de_nascimento_e_sexo')}}" method="POST" id="direitos-form" class="text-center">
-      <br>
+      
       <fieldset class="form-group">
         <p>Se você nunca contribuiu e não é trabalhador rural, você não tem direito aos Benefícios Previdenciários.</p>
         <br>
@@ -18,9 +17,9 @@
       </div>
       </fieldset>
     </form>
-    <div class="alert alert-dismissible alert-info">
+    <div class="div_info">
       <h4>Atenção!</h4>
-      <p class="text-center">Para saber mais sobre os <strong>BENEFÍCIOS ASSISTENCIAIS</strong> <a href="#" class="alert-link">click aqui</a>.</p>
+      <p class="text-center">Para saber mais sobre os <strong>BENEFÍCIOS ASSISTENCIAIS</strong> <a href="#" class="" style="color:white;">click aqui</a>.</p>
     </div>
   </div>
   <div class="col-12 col-sm-1 col-md-2 col-lg-3 col-xl-3"> </div>
